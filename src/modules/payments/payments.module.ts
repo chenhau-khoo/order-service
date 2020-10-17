@@ -1,9 +1,12 @@
-import { Module } from '@nestjs/common';
+import { HttpModule, Module } from '@nestjs/common';
 import { PaymentsService } from './payments.service';
-import { PaymentsController } from './payments.controller';
 
 @Module({
+  imports: [HttpModule.register({
+    timeout: 5000
+  })],
   providers: [PaymentsService],
-  controllers: [PaymentsController]
+  controllers: [],
+  exports: [PaymentsService]
 })
-export class PaymentsModule {}
+export class PaymentsModule { }
