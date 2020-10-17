@@ -1,17 +1,24 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
-import { OrderStatus } from './enum/orderStatus';
+import { OrderStatus } from '../../shared/order-status.enum';
 
 @Entity()
-export class Order extends BaseEntity {
+export class Order {
 
     @PrimaryGeneratedColumn("uuid")
     id: string;
 
     @Column({
+        nullable: false,
         type: "enum",
         enum: OrderStatus
     })
-    orderStatus: OrderStatus;
+    status: OrderStatus;
+
+    @Column()
+    amount: number;
+
+    @Column({ length: 150 })
+    desc: string;
 
     @Column({
         nullable: false,
