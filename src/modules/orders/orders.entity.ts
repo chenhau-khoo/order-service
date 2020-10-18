@@ -1,7 +1,8 @@
-import { Entity, Column, PrimaryGeneratedColumn, BaseEntity } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Index } from 'typeorm';
 import { OrderStatus } from '../../shared/order-status.enum';
 
 @Entity()
+@Index(["status"])
 export class Order {
 
     @PrimaryGeneratedColumn("uuid")
