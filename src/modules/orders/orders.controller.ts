@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Delete, ParseUUIDPipe, HttpCode } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Delete, ParseUUIDPipe, HttpCode, UsePipes, ValidationPipe } from '@nestjs/common';
 import { CreateOrderReq } from './dto/create-order.req';
 import { OrdersService } from './orders.service';
 
@@ -7,6 +7,7 @@ export class OrdersController {
     constructor(private readonly orderService: OrdersService) { }
 
     @Post()
+    @UsePipes(new ValidationPipe({ transform: true }))
     async create(@Body() req: CreateOrderReq) {
         return this.orderService.createOrder(req);
     }

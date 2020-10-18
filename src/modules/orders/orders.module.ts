@@ -8,6 +8,7 @@ import { PaymentsModule } from '../payments/payments.module';
 @Module({
   imports: [TypeOrmModule.forFeature([Order]), PaymentsModule],
   providers: [OrdersService],
-  controllers: [OrdersController]
+  controllers: [OrdersController],
+  exports: [OrdersService]
 })
 export class OrdersModule { }

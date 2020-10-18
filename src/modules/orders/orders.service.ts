@@ -81,4 +81,23 @@ export class OrdersService {
         order.status = OrderStatus.CANCELLED;
         await this.orderRepository.save(order);
     }
+
+    async findByStatus(status: OrderStatus) {
+        return this.orderRepository.find({ status });
+    }
+
+    async deliverOrder(id: string) {
+        if (!id) {
+            throw new BadRequestException('id is missing');
+        }
+        const order: Order = await this.orderRepository.findOne(id);
+        if (!order) {
+            throw new NotFoundException();
+        }
+        if (order.status !== OrderStatus.CONFIRMED) {
+            throw new BadRequestException(`Action cannot be completed, current order status=${order.status}`);
+        }
+        order.status = OrderStatus.DELIVERED;
+        await this.orderRepository.save(order);
+    }
 }
