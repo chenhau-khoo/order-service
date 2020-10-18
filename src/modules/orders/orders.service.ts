@@ -35,15 +35,17 @@ export class OrdersService {
 
     async getOrder(id: string): Promise<GetOrderResp> {
         if (!id) {
-            throw new BadRequestException('id is missing');
+            throw new BadRequestException('Id is missing');
         }
         const order: Order = await this.orderRepository.findOne(id);
         if (!order) {
-            throw new NotFoundException();
+            throw new NotFoundException(`Invalid orderId=${id}`);
         }
         let resp = new GetOrderResp;
         resp.id = order.id;
         resp.status = order.status;
+        resp.createdOn = order.createdOn;
+        resp.updatedOn = order.updatedOn;
         return resp;
     }
 

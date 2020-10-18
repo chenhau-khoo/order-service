@@ -12,8 +12,8 @@ export class OrdersController {
     }
 
     @Get(':id')
-    async getById() {
-
+    async getById(@Param('id', ParseUUIDPipe) id: string) {
+        return await this.orderService.getOrder(id);
     }
 
     @Get()
