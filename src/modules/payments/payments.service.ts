@@ -1,5 +1,6 @@
 import { HttpService, Injectable } from '@nestjs/common';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { MakePaymentReq } from './dto/make-payment.req';
 import { MakePaymentResp } from './dto/make-payment.resp';
 

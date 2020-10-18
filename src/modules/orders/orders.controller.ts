@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Delete, ParseUUIDPipe, HttpCode } from '@nestjs/common';
 import { CreateOrderReq } from './dto/create-order.req';
 import { OrdersService } from './orders.service';
 
@@ -19,5 +19,11 @@ export class OrdersController {
     @Get()
     async getAll() {
 
+    }
+
+    @Post(':id/cancel')
+    @HttpCode(200)
+    async cancel(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+        return await this.orderService.cancelOrder(id);
     }
 }

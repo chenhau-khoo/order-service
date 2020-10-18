@@ -30,6 +30,7 @@ export class Order {
     @Column({
         nullable: false,
         default: () => 'CURRENT_TIMESTAMP',
+        onUpdate: "CURRENT_TIMESTAMP",
         type: 'timestamp',
     })
     updatedOn: Date;
