@@ -60,16 +60,25 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Support
+## Installation
+`npm install`
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+## Running
 
-## Stay in touch
+This service requires docker or a local MySQL installation.  If using a local MySQL database, see `.env` for credentials, and make sure there are matching credentials in the database and the source code.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### Docker
 
-## License
+There is a `docker-compose.yml` file for starting Docker.
 
-  Nest is [MIT licensed](LICENSE).
+`docker-compose --env-file .env.dev up`
+
+After running the sample, you can stop the Docker container with
+
+`docker-compose down -v`
+
+### Run local
+
+`npm run start`
+
+
