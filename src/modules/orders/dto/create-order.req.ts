@@ -1,6 +1,10 @@
-import { IsString, IsNumber, IsNotEmpty } from 'class-validator';
+import { IsString, IsNumber, IsNotEmpty, IsUUID } from 'class-validator';
 
 export class CreateOrderReq {
+
+    @IsNotEmpty()
+    @IsUUID()
+    readonly requestId: string;
 
     @IsNumber()
     @IsNotEmpty()

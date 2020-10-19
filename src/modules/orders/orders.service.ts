@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, InternalServerErrorException, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PaymentStatus } from 'src/shared/payment-status.enum';
 import { Repository } from 'typeorm';
@@ -17,7 +17,7 @@ export class OrdersService {
     ) { }
 
     async createOrder(req: CreateOrderReq): Promise<CreateOrderResp> {
-        let order = await this.initialOrder(req.desc, req.amount);
+        let order = await this.initialOrder(req.requestId, req.desc, req.amount);
         order = await this.payOrder(order);
         let resp = new CreateOrderResp;
         resp.id = order.id;
@@ -25,8 +25,12 @@ export class OrdersService {
         return resp;
     }
 
-    async initialOrder(desc: string, amount: number): Promise<Order> {
-        let order = new Order();
+    async initialOrder(requestId: string, desc: string, amount: number): Promise<Order> {
+        if (await this.orderRepository.findOne({ requestId })) {
+            throw new ForbiddenException(`The requestId: ${requestId} already exists.`);
+        }
+        const order = new Order();
+        order.requestId = requestId;
         order.desc = desc;
         order.amount = amount;
         order.status = OrderStatus.CREATED;

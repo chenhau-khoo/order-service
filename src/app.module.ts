@@ -7,7 +7,7 @@ import { PaymentsModule } from './modules/payments/payments.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { SchedulersModule } from './modules/schedulers/schedulers.module';
 import { ConfigModule, ConfigService } from '@nestjs/config'
-import { DatabaseModule } from './database/database.module';
+import { SnakeNamingStrategy } from 'typeorm-naming-strategies/snake-naming.strategy';
 
 @Module({
   imports: [
@@ -27,6 +27,7 @@ import { DatabaseModule } from './database/database.module';
         database: configService.get('DB_NAME'),
         entities: [__dirname + '/**/*.entity{.ts,.js}'],
         synchronize: true,
+        namingStrategy: new SnakeNamingStrategy()
       })
     }),
     ScheduleModule.forRoot(),],

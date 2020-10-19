@@ -3,10 +3,14 @@ import { OrderStatus } from '../../shared/order-status.enum';
 
 @Entity()
 @Index(["status"])
+@Index(["requestId"], { unique: true })
 export class Order {
 
     @PrimaryGeneratedColumn("uuid")
     id: string;
+
+    @Column({ nullable: false })
+    requestId: string;
 
     @Column({
         nullable: false,
