@@ -1,8 +1,8 @@
 version: "3.7"
 
 networks:
-    network-1:
-        driver: bridge
+    my-network-1:
+        external: true
 
 services:
     order-api:
@@ -22,7 +22,7 @@ services:
         depends_on:
             - mysql
         networks:
-            - network-1
+            - my-network-1
     mysql:
         container_name: order-service-db
         image: mysql:5.7
@@ -35,7 +35,7 @@ services:
         ports:
             - "3307:3306"
         networks:
-            - network-1
+            - my-network-1
         volumes:
             - order-service-db:/var/lib/mysql
 

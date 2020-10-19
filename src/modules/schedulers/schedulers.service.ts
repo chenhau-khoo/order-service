@@ -14,7 +14,7 @@ export class SchedulersService {
         private readonly orderService: OrdersService,
     ) { }
 
-    @Cron(CronExpression.EVERY_30_SECONDS)
+    // @Cron(CronExpression.EVERY_30_SECONDS)
     async cronMarkOrderStatusAsDelivered() {
         this.logger.debug('Called every 30 seconds');
         const orders: Order[] = await this.orderService.findByStatus(OrderStatus.CONFIRMED);
