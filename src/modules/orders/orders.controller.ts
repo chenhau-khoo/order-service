@@ -22,9 +22,9 @@ export class OrdersController {
         return await this.orderService.findAll();
     }
 
-    @Post(':id/cancel')
-    @HttpCode(200)
-    async cancel(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    @Delete(':id')
+    @HttpCode(204)
+    async cancel(@Param('id', ParseUUIDPipe) id: string) {
         return await this.orderService.cancelOrder(id);
     }
 }

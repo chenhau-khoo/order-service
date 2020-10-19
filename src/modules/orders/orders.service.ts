@@ -77,7 +77,7 @@ export class OrdersService {
         }
         const order: Order = await this.orderRepository.findOne(id);
         if (!order) {
-            throw new NotFoundException();
+            throw new NotFoundException(`Invalid orderId=${id}`);
         }
         if (order.status !== OrderStatus.CREATED && order.status !== OrderStatus.CONFIRMED) {
             throw new BadRequestException(`Action cannot be completed, current order status=${order.status}`);
