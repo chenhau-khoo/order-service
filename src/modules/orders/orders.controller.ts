@@ -9,7 +9,7 @@ export class OrdersController {
     @Post()
     @UsePipes(new ValidationPipe({ transform: true }))
     async create(@Body() req: CreateOrderReq) {
-        return this.orderService.createOrder(req);
+        return await this.orderService.createOrder(req);
     }
 
     @Get(':id')
