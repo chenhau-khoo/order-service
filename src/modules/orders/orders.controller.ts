@@ -19,7 +19,7 @@ export class OrdersController {
 
     @Get()
     async getAll() {
-
+        return await this.orderService.findAll();
     }
 
     @Post(':id/cancel')

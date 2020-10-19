@@ -86,8 +86,27 @@ export class OrdersService {
         await this.orderRepository.save(order);
     }
 
-    async findByStatus(status: OrderStatus) {
+    async findByStatus(status: OrderStatus): Promise<Order[]> {
         return this.orderRepository.find({ status });
+    }
+
+    //TODO: Pagination
+    async findAll(): Promise<GetOrderResp[]> {
+        const orders: Order[] = await this.orderRepository
+            .createQueryBuilder('order')
+            .orderBy('order.updatedOn', 'DESC')
+            .getMany();
+        let resp: GetOrderResp[] = [];
+        orders.forEach(o => {
+            let orderResp = new GetOrderResp();
+            orderResp.id = o.id;
+            orderResp.desc = o.desc;
+            orderResp.status = o.status;
+            orderResp.amount = o.amount;
+            orderResp.updatedOn = o.updatedOn;
+            resp.push(orderResp);
+        })
+        return resp;
     }
 
     async deliverOrder(id: string) {
