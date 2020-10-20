@@ -83,8 +83,14 @@ After running the sample, you can stop the Docker container with
 
 `docker-compose down -v`
 
-### Run local
+### Swagger Doc
 
-`npm run start`
+http://localhost:3000/swagger
+
+
+### Postman collection
+
+https://www.getpostman.com/collections/6ef0c2917da69457eb97
+
 
 
