@@ -71,6 +71,12 @@ This service requires docker or a local MySQL installation.  If using a local My
 
 There is a `docker-compose.yml` file for starting Docker.
 
+Make sure the network `my-bridge-network` is created before you start the service with Docker:
+
+`docker network create -d bridge my-bridge-network`
+
+Once the network is created, run the command below to start up service:
+
 `docker-compose --env-file .env.dev up`
 
 After running the sample, you can stop the Docker container with
