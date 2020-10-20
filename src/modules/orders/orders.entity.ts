@@ -19,7 +19,7 @@ export class Order {
     })
     status: OrderStatus;
 
-    @Column({ type: 'decimal', precision: 5, scale: 2 })
+    @Column({ type: 'decimal', precision: 6, scale: 2 })
     amount: number;
 
     @Column({ length: 150 })

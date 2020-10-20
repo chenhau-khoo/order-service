@@ -1,4 +1,4 @@
-import { IsString, IsNumber, IsNotEmpty, IsUUID } from 'class-validator';
+import { IsString, IsNumber, IsNotEmpty, IsUUID, Max } from 'class-validator';
 
 export class CreateOrderReq {
 
@@ -8,6 +8,7 @@ export class CreateOrderReq {
 
     @IsNumber()
     @IsNotEmpty()
+    @Max(9999)
     readonly amount: number;
 
     @IsString()

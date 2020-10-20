@@ -7,6 +7,7 @@ import { MakePaymentReq } from '../payments/dto/make-payment.req';
 import { PaymentsService } from '../payments/payments.service';
 import { CreateOrderReq } from './dto/create-order.req';
 import { CreateOrderResp } from './dto/create-order.resp';
+import { GetOrderStatusResp } from './dto/get-order-status.resp';
 import { GetOrderResp } from './dto/get-order.resp';
 import { Order } from './orders.entity';
 
@@ -25,11 +26,12 @@ export class OrdersService {
         return resp;
     }
 
-    async initialOrder(requestId: string, desc: string, amount: number): Promise<Order> {
-        if (await this.orderRepository.findOne({ requestId })) {
-            throw new ForbiddenException(`The requestId: ${requestId} already exists.`);
+    private async initialOrder(requestId: string, desc: string, amount: number): Promise<Order> {
+        const dbOrder = await this.orderRepository.findOne({ requestId });
+        if (dbOrder && dbOrder.status !== OrderStatus.CREATED) {
+            throw new ForbiddenException(`The requestId: ${requestId} has already been processed.`);
         }
-        const order = new Order();
+        const order = dbOrder ? dbOrder : new Order();
         order.requestId = requestId;
         order.desc = desc;
         order.amount = amount;
@@ -37,7 +39,7 @@ export class OrdersService {
         return await this.orderRepository.save(order);
     }
 
-    async getOrder(id: string): Promise<GetOrderResp> {
+    async getOrderById(id: string): Promise<GetOrderResp> {
         if (!id) {
             throw new BadRequestException('Id is missing');
         }
@@ -48,8 +50,24 @@ export class OrdersService {
         let resp = new GetOrderResp;
         resp.id = order.id;
         resp.status = order.status;
+        resp.amount = order.amount;
+        resp.desc = order.desc
         resp.createdOn = order.createdOn;
         resp.updatedOn = order.updatedOn;
+        return resp;
+    }
+
+    async getOrderStatusById(id: string) {
+        if (!id) {
+            throw new BadRequestException('Id is missing');
+        }
+        const order: Order = await this.orderRepository.findOne(id);
+        if (!order) {
+            throw new NotFoundException(`Invalid orderId=${id}`);
+        }
+        let resp = new GetOrderStatusResp;
+        resp.id = order.id;
+        resp.status = order.status;
         return resp;
     }
 
@@ -60,7 +78,7 @@ export class OrdersService {
         const makePaymentResp = await this.paymentService.makePayment(makePaymentReq)
             .toPromise()
             .catch(e => {
-                console.error(e.response.data);
+                console.error(e.message);
                 throw new InternalServerErrorException('Failed to make payment');
             });
         if (makePaymentResp.paymentStatus === PaymentStatus.CONFIRMED) {
