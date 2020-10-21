@@ -17,13 +17,10 @@ export class OrdersService {
         private paymentService: PaymentsService,
     ) { }
 
-    async createOrder(req: CreateOrderReq): Promise<CreateOrderResp> {
+    async createOrder(req: CreateOrderReq): Promise<Order> {
         let order = await this.initialOrder(req.requestId, req.desc, req.amount);
         order = await this.payOrder(order);
-        let resp = new CreateOrderResp;
-        resp.id = order.id;
-        resp.status = order.status;
-        return resp;
+        return order;
     }
 
     private async initialOrder(requestId: string, desc: string, amount: number): Promise<Order> {
@@ -39,7 +36,7 @@ export class OrdersService {
         return await this.orderRepository.save(order);
     }
 
-    async getOrderById(id: string): Promise<GetOrderResp> {
+    async getOrderById(id: string): Promise<Order> {
         if (!id) {
             throw new BadRequestException('Id is missing');
         }
@@ -47,14 +44,7 @@ export class OrdersService {
         if (!order) {
             throw new NotFoundException(`Invalid orderId=${id}`);
         }
-        let resp = new GetOrderResp;
-        resp.id = order.id;
-        resp.status = order.status;
-        resp.amount = order.amount;
-        resp.desc = order.desc
-        resp.createdOn = order.createdOn;
-        resp.updatedOn = order.updatedOn;
-        return resp;
+        return order;
     }
 
     async getOrderStatusById(id: string) {
@@ -89,7 +79,7 @@ export class OrdersService {
         return await this.orderRepository.save(order);
     }
 
-    async cancelOrder(id: string) {
+    async cancelOrder(id: string): Promise<Order> {
         if (!id) {
             throw new BadRequestException('id is missing');
         }
@@ -101,7 +91,7 @@ export class OrdersService {
             throw new BadRequestException(`Action cannot be completed, current order status=${order.status}`);
         }
         order.status = OrderStatus.CANCELLED;
-        await this.orderRepository.save(order);
+        return await this.orderRepository.save(order);
     }
 
     async findByStatus(status: OrderStatus): Promise<Order[]> {
@@ -109,22 +99,11 @@ export class OrdersService {
     }
 
     //TODO: Pagination
-    async findAll(): Promise<GetOrderResp[]> {
-        const orders: Order[] = await this.orderRepository
+    async findAll(): Promise<Order[]> {
+        return await this.orderRepository
             .createQueryBuilder('order')
             .orderBy('order.updatedOn', 'DESC')
             .getMany();
-        let resp: GetOrderResp[] = [];
-        orders.forEach(o => {
-            let orderResp = new GetOrderResp();
-            orderResp.id = o.id;
-            orderResp.desc = o.desc;
-            orderResp.status = o.status;
-            orderResp.amount = o.amount;
-            orderResp.updatedOn = o.updatedOn;
-            resp.push(orderResp);
-        })
-        return resp;
     }
 
     async deliverOrder(id: string) {

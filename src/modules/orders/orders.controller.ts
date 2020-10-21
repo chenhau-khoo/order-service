@@ -20,32 +20,25 @@ export class OrdersController {
     @ApiOperation({ summary: 'Create a new order' })
     @ApiResponse({ status: 201, description: 'The order has been successfully created.' })
     @ApiResponse({ status: 403, description: 'The same request has already been processed.' })
-    async create(@Body() req: CreateOrderReq): Promise<CreateOrderResp> {
+    async create(@Body() req: CreateOrderReq): Promise<Order> {
         return await this.orderService.createOrder(req);
     }
 
     @Get(':id')
     @ApiOperation({ summary: 'Get order by id' })
-    async get(@Param('id', ParseUUIDPipe) id: string): Promise<GetOrderResp> {
+    async get(@Param('id', ParseUUIDPipe) id: string): Promise<Order> {
         return await this.orderService.getOrderById(id);
-    }
-
-    @Get(':id/status')
-    @ApiOperation({ summary: 'Get order status by id' })
-    async getStatus(@Param('id', ParseUUIDPipe) id: string): Promise<GetOrderStatusResp> {
-        return await this.orderService.getOrderStatusById(id);
     }
 
     @Get()
     @ApiOperation({ summary: 'Get all orders' })
-    async getAll(): Promise<GetOrderResp[]> {
+    async getAll(): Promise<Order[]> {
         return await this.orderService.findAll();
     }
 
     @Delete(':id')
-    @HttpCode(204)
     @ApiOperation({ summary: 'Cancel an order by id' })
-    async cancel(@Param('id', ParseUUIDPipe) id: string) {
+    async cancel(@Param('id', ParseUUIDPipe) id: string): Promise<Order> {
         return await this.orderService.cancelOrder(id);
     }
 }
