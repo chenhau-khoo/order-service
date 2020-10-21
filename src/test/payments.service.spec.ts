@@ -20,10 +20,6 @@ describe('PaymentsService', () => {
     httpService = module.get<HttpService>(HttpService);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
-  });
-
   describe('make payment', () => {
     it('should return data when successfully called', async () => {
 
