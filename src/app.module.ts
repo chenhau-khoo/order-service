@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -8,6 +8,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { SchedulersModule } from './modules/schedulers/schedulers.module';
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies/snake-naming.strategy';
+import { LoggerMiddleware } from './shared/logger.middleware';
 
 @Module({
   imports: [
@@ -34,4 +35,8 @@ import { SnakeNamingStrategy } from 'typeorm-naming-strategies/snake-naming.stra
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('orders');
+  }
+}
