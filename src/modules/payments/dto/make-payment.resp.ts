@@ -1,4 +1,4 @@
-import { PaymentStatus } from "src/modules/shared/payment-status.enum";
+import { PaymentStatus } from '../const/payment-status.enum';
 
 export class MakePaymentResp {
     paymentId: string;
