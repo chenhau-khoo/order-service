@@ -6,9 +6,6 @@ import { OrderStatus } from '../../shared/order-status.enum';
 import { MakePaymentReq } from '../payments/dto/make-payment.req';
 import { PaymentsService } from '../payments/payments.service';
 import { CreateOrderReq } from './dto/create-order.req';
-import { CreateOrderResp } from './dto/create-order.resp';
-import { GetOrderStatusResp } from './dto/get-order-status.resp';
-import { GetOrderResp } from './dto/get-order.resp';
 import { Order } from './orders.entity';
 
 @Injectable()
@@ -45,20 +42,6 @@ export class OrdersService {
             throw new NotFoundException(`Invalid orderId=${id}`);
         }
         return order;
-    }
-
-    async getOrderStatusById(id: string) {
-        if (!id) {
-            throw new BadRequestException('Id is missing');
-        }
-        const order: Order = await this.orderRepository.findOne(id);
-        if (!order) {
-            throw new NotFoundException(`Invalid orderId=${id}`);
-        }
-        let resp = new GetOrderStatusResp;
-        resp.id = order.id;
-        resp.status = order.status;
-        return resp;
     }
 
     private async payOrder(order: Order): Promise<Order> {

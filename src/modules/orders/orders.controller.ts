@@ -1,12 +1,8 @@
-import { Body, Controller, Get, Param, Post, Delete, ParseUUIDPipe, HttpCode, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseUUIDPipe, Patch, Post, UsePipes, ValidationPipe } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 import { ApiResponse } from '@nestjs/swagger/dist/decorators/api-response.decorator';
 import { ApiTags } from '@nestjs/swagger/dist/decorators/api-use-tags.decorator';
-import { Observable, of } from 'rxjs';
 import { CreateOrderReq } from './dto/create-order.req';
-import { CreateOrderResp } from './dto/create-order.resp';
-import { GetOrderStatusResp } from './dto/get-order-status.resp';
-import { GetOrderResp } from './dto/get-order.resp';
 import { Order } from './orders.entity';
 import { OrdersService } from './orders.service';
 
@@ -36,7 +32,7 @@ export class OrdersController {
         return await this.orderService.findAll();
     }
 
-    @Delete(':id')
+    @Patch(':id/cancel')
     @ApiOperation({ summary: 'Cancel an order by id' })
     async cancel(@Param('id', ParseUUIDPipe) id: string): Promise<Order> {
         return await this.orderService.cancelOrder(id);
