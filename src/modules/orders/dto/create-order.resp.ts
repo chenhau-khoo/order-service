@@ -1,4 +1,4 @@
-import { OrderStatus } from "src/shared/order-status.enum";
+import { OrderStatus } from "src/modules/shared/order-status.enum";
 
 export class CreateOrderResp {
     id: string;

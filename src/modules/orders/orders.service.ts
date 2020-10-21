@@ -1,8 +1,8 @@
 import { BadRequestException, Injectable, NotFoundException, InternalServerErrorException, ForbiddenException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { PaymentStatus } from 'src/shared/payment-status.enum';
+import { PaymentStatus } from 'src/modules/shared/payment-status.enum';
 import { Repository } from 'typeorm';
-import { OrderStatus } from '../../shared/order-status.enum';
+import { OrderStatus } from '../shared/order-status.enum';
 import { MakePaymentReq } from '../payments/dto/make-payment.req';
 import { PaymentsService } from '../payments/payments.service';
 import { CreateOrderReq } from './dto/create-order.req';

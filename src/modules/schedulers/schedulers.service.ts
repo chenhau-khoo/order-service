@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Cron, CronExpression, SchedulerRegistry } from '@nestjs/schedule';
-import { OrderStatus } from 'src/shared/order-status.enum';
+import { OrderStatus } from 'src/modules/shared/order-status.enum';
 import { Order } from '../orders/orders.entity';
 import { OrdersService } from '../orders/orders.service';
 

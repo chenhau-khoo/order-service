@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn, BaseEntity, Index } from 'typeorm';
-import { OrderStatus } from '../../shared/order-status.enum';
+import { OrderStatus } from '../shared/order-status.enum';
 
 @Entity()
 @Index(["status"])

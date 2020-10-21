@@ -8,7 +8,7 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { SchedulersModule } from './modules/schedulers/schedulers.module';
 import { ConfigModule, ConfigService } from '@nestjs/config'
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies/snake-naming.strategy';
-import { LoggerMiddleware } from './shared/logger.middleware';
+import { LoggerMiddleware } from './modules/shared/logger.middleware';
 
 @Module({
   imports: [
@@ -31,7 +31,7 @@ import { LoggerMiddleware } from './shared/logger.middleware';
         namingStrategy: new SnakeNamingStrategy()
       })
     }),
-    ScheduleModule.forRoot(),],
+    ScheduleModule.forRoot()],
   controllers: [AppController],
   providers: [AppService],
 })
