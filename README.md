@@ -36,7 +36,12 @@ $ npm install
 
 ## Running the app
 
+If you're running the service without using Docker, make sure MySQL database is installed and check the `.env` file for DB credentials.
+
 ```bash
+# Create new schema
+$ CREATE SCHEMA `order_service` ;
+
 # development
 $ npm run start
 
@@ -45,6 +50,23 @@ $ npm run start:dev
 
 # production mode
 $ npm run start:prod
+```
+
+## Running the app with Docker
+
+Make sure custom network is created before running the service with Docker.
+
+```bash
+
+# Create network
+$ docker network create -d bridge my-bridge-network
+
+# Startup service:
+$ docker-compose --env-file .env.dev up
+
+# Shutdown service:
+$ docker-compose down -v
+
 ```
 
 ## Test
@@ -60,37 +82,19 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
-## Installation
-`npm install`
+## Swagger Doc
 
-## Running
-
-This service requires docker or a local MySQL installation.  If using a local MySQL database, see `.env` for credentials, and make sure there are matching credentials in the database and the source code.
-
-### Docker
-
-There is a `docker-compose.yml` file for starting Docker.
-
-Make sure the network `my-bridge-network` is created before you start the service with Docker:
-
-`docker network create -d bridge my-bridge-network`
-
-Once the network is created, run the command below to start up service:
-
-`docker-compose --env-file .env.dev up`
-
-After running the sample, you can stop the Docker container with
-
-`docker-compose down -v`
-
-### Swagger Doc
-
+```bash
+# Swagger doc can be found at the URL below once the service is running:
 http://localhost:3000/swagger
+```
 
+## Postman collection
 
-### Postman collection
-
+```bash
+# Import the postman collection to start calling the service endpoints: 
 https://www.getpostman.com/collections/6ef0c2917da69457eb97
+```
 
 
 
